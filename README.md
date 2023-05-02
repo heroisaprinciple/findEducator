@@ -1,24 +1,21 @@
-# README
+<h1>A findEducator platform to find a tutor for a particular subject.</h1>
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<h1>How to run application:</h1>
 
-Things you may want to cover:
+1. Clone a repository.
 
-* Ruby version
+2. Go to the project and enter there `bundle install` to install all gems (packages) needed for the application.
 
-* System dependencies
+3. `rails db:create` to create a db.
 
-* Configuration
+4. `rails db:migrate` to run migrations.
 
-* Database creation
+5. Run `rails db:seed` to populate your database with necessary info.
 
-* Database initialization
+6. Go to educator directory (which is a React app) and run `npm install` there.
 
-* How to run the test suite
+7. Run `npm start` to start the React app.
 
-* Services (job queues, cache servers, search engines, etc.)
+8. Enter 'Yes' when it is asked to change the server as rails api runs on port 3000, but React app runs on port 3001.
 
-* Deployment instructions
-
-* ...
+Good. Let's go.
