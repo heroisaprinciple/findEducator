@@ -17,3 +17,5 @@
 7. Run `npm start` to start the React app.
 
 8. Enter 'Yes' when it is asked to change the server as rails api runs on port 3000, but React app runs on port 3001.
+
+Good. Let's go.
