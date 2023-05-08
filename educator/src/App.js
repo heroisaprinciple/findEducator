@@ -1,22 +1,22 @@
 import './App.css';
 import axios from "axios";
-import Users from "./components/users";
+import Subjects from "./components/subjects";
 import { useEffect, useState } from "react";
 
-const API_URL = "http://localhost:3000/api/v1/users" // move to env (only host)
+const API_URL = "http://localhost:3000/api/v1/subjects" // move to env (only host)
 
 function getAPIData() {
     return axios.get(API_URL).then((response) => response.data)
 }
 
 function App() {
-    const [users, setUsers] = useState([])
+    const [subjects, setSubjects] = useState([])
 
     useEffect(() => {
         let mounted = true;
         getAPIData().then((items) => {
             if (mounted) {
-                setUsers(items)
+                setSubjects(items)
             }
         });
         return () => (mounted = false);
@@ -24,8 +24,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>How about beer today?</h1>
-        <Users users={users}/>
+      <h1>Subjects</h1>
+        <Subjects subjects={subjects}/>
     </div>
   );
 }

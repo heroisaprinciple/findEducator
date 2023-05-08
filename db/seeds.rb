@@ -5,14 +5,17 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+if Doorkeeper::Application.count.zero?
+  Doorkeeper::Application.create!(name: 'Web Client', redirect_uri: '', scopes: '')
+  Doorkeeper::Application.create!(name: 'React', redirect_uri: '', scopes: '')
+end
 
 User.first_or_create(email: 'valcat552@gmail.com', password: 'password',
                      password_confirmation: 'password', role: User.roles[:admin],
                      firstname: 'Ari', lastname: 'Sof', phone: '0871234567')
 
+subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
 
-Subject.create(name: 'Mathematics')
-Subject.create(name: 'Physics')
-Subject.create(name: 'Chemistry')
-Subject.create(name: 'Biology')
-Subject.create(name: 'Computer Science')
+subjects.each do |subject_name|
+  Subject.find_or_create_by(name: subject_name)
+end

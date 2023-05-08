@@ -1,5 +1,6 @@
-class SubjectsController < ApplicationController
+class Api::V1::SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show update destroy ]
+  # include AdminFacade
 
   # GET /subjects
   def index
@@ -18,7 +19,7 @@ class SubjectsController < ApplicationController
     @subject = Subject.new(subject_params)
 
     if @subject.save
-      render json: @subject, status: :created, location: @subject
+      render json: @subject, status: :created
     else
       render json: @subject.errors, status: :unprocessable_entity
     end
