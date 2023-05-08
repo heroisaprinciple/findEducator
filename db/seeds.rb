@@ -7,4 +7,5 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 User.first_or_create(email: 'valcat552@gmail.com', password: 'password',
-                     password_confirmation: 'password', role: User.roles[:admin])
+                     password_confirmation: 'password', role: User.roles[:admin],
+                     firstname: 'Ari', lastname: 'Sof', phone: '0871234567')
