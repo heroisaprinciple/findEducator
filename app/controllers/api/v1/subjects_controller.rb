@@ -1,6 +1,7 @@
 class Api::V1::SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show update destroy ]
-  # include AdminFacade
+  before_action :authenticate_user!
+  before_action :is_admin?
 
   # GET /subjects
   def index
@@ -37,6 +38,16 @@ class Api::V1::SubjectsController < ApplicationController
   # DELETE /subjects/1
   def destroy
     @subject.destroy
+  end
+
+  private
+
+  def is_admin?
+    return if current_user&.admin?
+
+    respond_to do |format|
+      format.json { render json: { error: 'You are not authorized to access this page.' }, status: :unauthorized }
+    end
   end
 
   private
