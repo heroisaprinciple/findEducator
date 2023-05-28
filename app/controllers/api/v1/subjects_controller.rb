@@ -1,7 +1,7 @@
 class Api::V1::SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show update destroy ]
-  before_action :authenticate_user!
-  before_action :is_admin?
+  # before_action :authenticate_user!
+  # before_action :is_admin?
 
   # GET /subjects
   def index
@@ -41,23 +41,11 @@ class Api::V1::SubjectsController < ApplicationController
   end
 
   private
-
-  def is_admin?
-    return if current_user&.admin?
-
-    respond_to do |format|
-      format.json { render json: { error: 'You are not authorized to access this page.' }, status: :unauthorized }
-    end
+  def set_subject
+    @subject = Subject.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subject
-      @subject = Subject.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def subject_params
-      params.require(:subject).permit(:name)
-    end
+  def subject_params
+    params.require(:subject).permit(:name)
+  end
 end

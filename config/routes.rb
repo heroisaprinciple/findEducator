@@ -1,21 +1,19 @@
 Rails.application.routes.draw do
-  # use_doorkeeper
-  # devise_for :users
-  # resources :subjects
-  #
-  # draw :api
+  devise_for :users, path: '',
+             path_names: {
+               sign_in: 'login',
+               sign_out: 'logout',
+               registration: 'signup',
+             },
+             controllers: {
+               sessions: 'users/sessions',
+               registrations: 'users/registrations'
+             }
+  get '/member-data', to: 'members#show'
 
-    # Use for login and autorize all resource
-    use_doorkeeper do
-      # No need to register client application
-      skip_controllers :applications, :authorizations, :authorized_applications
+  namespace :api do
+    namespace :v1 do
+      resources :subjects
     end
-
-    scope module: :api, defaults: { format: :json } do
-      scope module: :v1  do
-        devise_for :users, controllers: {
-          registrations: 'api/v1/users/registrations',
-        }, skip: [:sessions, :password]
-      end
-    end
+  end
 end
