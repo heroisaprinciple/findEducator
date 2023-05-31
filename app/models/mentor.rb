@@ -13,6 +13,8 @@ class Mentor < ApplicationRecord
   has_many :ratings
 
   validates :email, format: URI::MailTo::EMAIL_REGEXP
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def self.authenticate(email, password)
     user = Mentor.find_for_authentication(email: email)

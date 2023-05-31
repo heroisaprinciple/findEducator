@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :mentors, through: :personal_messages
 
   validates :email, format: URI::MailTo::EMAIL_REGEXP
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   enum role: [:user, :admin]
 
   def self.authenticate(email, password)
