@@ -57,3 +57,12 @@ gem 'pry', '~> 0.13.1'
 
 gem 'jwt'
 gem 'devise-jwt', '~> 0.11.0'
+
+gem 'stripe', '~> 8.5'
+gem "pay", "~> 6.0"
+
+gem "receipts", "~> 2.0"
+
+gem 'matrix', '~> 0.4.2'
+
+gem "rails-erd", "~> 1.7"
