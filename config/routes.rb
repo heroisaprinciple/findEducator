@@ -17,6 +17,13 @@ Rails.application.routes.draw do
       resources :categories do
         resources :subjects
       end
+      resources :users do
+        resources :appointements
+        resources :personal_messages, only: [:index, :create]
+      end
+      # resources :appointements
+      resources :ratings
+      post "create-checkouts-session", to: 'appointements#create_checkout_session', as: :create_checkout_session
     end
   end
 end

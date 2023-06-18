@@ -1,6 +1,6 @@
 class Payment < ApplicationRecord
   belongs_to :user
-  belongs_to :appointement
+  belongs_to :appointement, optional: true
 
   enum status: { unpaid: 0, paid: 1, canceled: 2 }
 
