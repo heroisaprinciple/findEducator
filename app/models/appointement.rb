@@ -4,7 +4,7 @@ class Appointement < ApplicationRecord
   has_many :payments
   has_many :users, through: :payments
 
-  enum status: { booked: 1, cancelled: 2 }
+  enum status: { pending: 0, booked: 1, cancelled: 2 }
 
   validates :status, presence: true
   validates :meeting_link, presence: true
