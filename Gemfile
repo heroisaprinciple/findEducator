@@ -66,3 +66,5 @@ gem "receipts", "~> 2.0"
 gem 'matrix', '~> 0.4.2'
 
 gem "rails-erd", "~> 1.7"
+
+gem 'rubocop'

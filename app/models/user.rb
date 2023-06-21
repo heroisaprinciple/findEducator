@@ -18,7 +18,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  enum role: [:user, :admin]
+  enum role: { user: 0, admin: 1 }
 
   def self.authenticate(email, password)
     user = User.find_for_authentication(email: email)
