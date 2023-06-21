@@ -1,5 +1,5 @@
 class Subject < ApplicationRecord
-  belongs_to :category, optional: true
+  belongs_to :category
 
   has_many :prices
   has_many :mentors, through: :prices
