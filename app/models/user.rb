@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   has_many :personal_messages
   has_many :payments
+  has_many :ratings
   has_many :appointements, through: :payments
   has_many :mentors, through: :personal_messages
 

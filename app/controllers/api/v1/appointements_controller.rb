@@ -4,7 +4,7 @@ class AppointementBuilder
   def self.build
     builder = new
     yield(builder)
-    builder.new
+    builder.appointement
   end
 
   def initialize
@@ -16,48 +16,46 @@ class AppointementBuilder
   end
 
   def set_start_time
-    @appointement.start_at = DateTime.current
+    @appointement.start_time = DateTime.current
   end
 
   def set_end_time
-    @appointement.end_time = DateTime.current + 60
+    @appointement.end_time = DateTime.current + 60.minutes
   end
 
   def set_meeting_link
-    # Generate an 8-character random string
-    # "/api/v1/users/#{user_id}/appointments/#{random_string}"
-    @appointement.meeting_link = api_v1_user_appointement + SecureRandom.urlsafe_base64
+    @appointement.meeting_link = "/#{SecureRandom.urlsafe_base64}"
   end
 
-  def set_description
-    @appointement.description
+  def set_description(params)
+    @appointement.description = params
   end
 
   def set_user(user)
-    @order.user = user
+    @appointement.user_id = user.id
   end
 
   def set_mentor(mentor)
-    @appointement.mentor = mentor
+    @appointement.mentor_id = mentor.id
   end
 
-  def set_payment(payment)
-    @order.payment = payment
-  end
+  # def set_payment(user)
+  #    @appointement.payment_id = user.payments.last.id
+  # end
 end
 
 class Api::V1::AppointementsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_mentor!
-  before_action :set_appointement
+  before_action :set_appointement, only: %i[show update destroy]
   def index
-    @appointements = Appointement.all
+    binding.pry
+    @appointements = current_user.appointements
 
     render json: @appointements
   end
 
   def show
-    @appointement = Appointement.find(params[:id])
+    @appointement = current_user.appointements.find(params[:id])
 
     render json: @appointement
   end
@@ -119,36 +117,34 @@ class Api::V1::AppointementsController < ApplicationController
     )
   end
 
-  def create_appointement(payment)
+  def create
     @appointement = AppointementBuilder.build do |builder|
       builder.set_status
-      builder.set_meeting_link
       builder.set_start_time
       builder.set_end_time
+      builder.set_meeting_link
+      builder.set_description(appointment_params[:description])
       builder.set_user(current_user)
       builder.set_mentor(current_user.mentors.last)
-      builder.set_payment(payment)
+      builder.set_payment(current_user)
     end
 
-    # id: 1,
-    #   start_time: Wed, 07 Jun 2023 10:58:38.901839000 UTC +00:00,
-    #   end_time: Wed, 07 Jun 2023 11:58:38.901852000 UTC +00:00,
-    #   meeting_link: "/4343k2gksagakgsaas",
-    #   status: "pending",
-    #   description: "Noooo, I wanna sleep",
-    #   mentor_id: 1,
-    #   user_id: 26,
-    #   payment_id: 1,
-    #   created_at: Wed, 07 Jun 2023 10:58:38.905083000 UTC +00:00,
-    #   updated_at: Wed, 07 Jun 2023 10:58:38.905083000 UTC +00:00>
-
-      @appointement.save
+    if @appointement.save
+      render json: @appointement
+    else
+      render json: @appointement.errors, status: :unprocessable_entity
+    end
   end
 
   private
 
   def set_appointement
     @appointement = Appointement.find(params[:id])
+  end
+
+  def appointment_params
+    params.require(:appointement).permit(:start_time, :end_time, :meeting_link, :status, :description,
+                                         :mentor_id, :user_id, :payment_id)
   end
 end
 

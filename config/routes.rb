@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :mentors, path: '',
                        path_names: {
-                             sign_in: 'login',
-                             sign_out: 'logout',
-                             registration: 'signup',
+                             sign_in: 'login/mentors',
+                             sign_out: 'logout/mentors',
+                             registration: 'signup/mentors'
                        },
                        controllers: {
                              sessions: 'mentors/sessions',
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
                      path_names: {
                        sign_in: 'login',
                        sign_out: 'logout',
-                       registration: 'signup',
+                       registration: 'signup'
                      },
                      controllers: {
                        sessions: 'users/sessions',
@@ -28,13 +28,15 @@ Rails.application.routes.draw do
         resources :subjects
       end
 
-      resources :mentors
+      resources :mentors do
+        resources :ratings, only: %i[index create]
+      end
+
       resources :users, :mentors do
         resources :appointements
         resources :personal_messages
       end
 
-      resources :ratings
       post "create-checkouts-session", to: 'appointements#create_checkout_session', as: :create_checkout_session
     end
   end

@@ -1,12 +1,10 @@
 class Api::V1::RatingsController < ApplicationController
-  # before_action :authenticate_user!
-  def index
-    @ratings = Rating.all
-    render json: @ratings
-  end
+  before_action :authenticate_user!, only: [:create]
 
-  def new
-    @rating = Rating.new
+  def index
+    @ratings = Rating.where(mentor_id: params[:mentor_id])
+
+    render json: @ratings
   end
 
   def create
@@ -15,7 +13,7 @@ class Api::V1::RatingsController < ApplicationController
     @rating.user = current_user
 
     if @rating.save
-      redirect_to api_v1_ratings_path, notice: 'Review created successfully.'
+      render json: @rating
     else
       render json: { error: 'Unfortunately, your review can not be created' }, status: :unprocessable_entity
     end
