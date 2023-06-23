@@ -4,5 +4,5 @@ class Subject < ApplicationRecord
   has_many :prices
   has_many :mentors, through: :prices
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 end

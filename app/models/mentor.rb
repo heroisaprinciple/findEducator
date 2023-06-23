@@ -9,6 +9,7 @@ class Mentor < ApplicationRecord
   has_many :subjects, through: :prices
   has_many :personal_messages
   has_many :users, through: :personal_messages
+  has_many :appointements
   has_many :availabilities
   has_many :ratings
 

@@ -1,8 +1,9 @@
 class Appointement < ApplicationRecord
   belongs_to :mentor
+  belongs_to :user
 
   has_many :payments
-  has_many :users, through: :payments
+  # has_many :users, through: :payments
 
   enum status: { pending: 0, booked: 1, cancelled: 2 }
 
