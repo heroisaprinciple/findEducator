@@ -1,28 +1,14 @@
 class Api::V1::PersonalMessagesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :authenticate_mentor!
-  before_action :current_user
+  before_action :mentor_or_user_access
 
   def index
-    @messages = current_user.personal_messages
+    @messages = collection
 
     render json: @messages
   end
 
-  def show
-    @message = current_user.personal_messages.find(params[:id])
-
-    render json: @message
-  end
-
   def create
-    if current_user
-      @message = current_user.personal_messages.new(message_params)
-      @message.user_id = current_user.id
-    elsif current_mentor
-      @message = current_mentor.personal_messages.new(message_params)
-      @message.mentor_id = current_mentor.id
-    end
+    @message = collection.new(message_params)
 
     if @message.save
       render json: @message
@@ -31,9 +17,23 @@ class Api::V1::PersonalMessagesController < ApplicationController
     end
   end
 
+  def destroy
+    @message = collection.last
+    @message.destroy
+  end
+
   private
 
+  def set_conversation
+    @conversation = Conversation.find(params[:conversation_id])
+  end
+
+  def collection
+    @conversation = set_conversation
+    @conversation.personal_messages
+  end
+
   def message_params
-    params.require(:message).permit(:content, :sent_at, :user_id, :mentor_id)
+    params.require(:personal_message).permit(:content, :sent_at, :user_id, :mentor_id)
   end
 end

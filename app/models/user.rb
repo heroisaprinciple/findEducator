@@ -1,28 +1,24 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  #        :recoverable, :rememberable, :validatable
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  pay_customer
+
+  devise :database_authenticatable, :registerable, :secure_validatable,
          :jwt_authenticatable,
          jwt_revocation_strategy: JwtDenylist
 
-  has_many :personal_messages
-  has_many :payments
-  has_many :ratings
-  has_many :appointements, through: :payments
-  has_many :mentors, through: :personal_messages
+  enum role: { user: 0, admin: 1 }
 
-  validates :email, format: URI::MailTo::EMAIL_REGEXP
+  has_many :conversations, dependent: :destroy
+  has_many :personal_messages, dependent: :destroy
+  has_many :mentors, through: :conversations
+
+  has_many :payments, dependent: :destroy
+  has_many :ratings, dependent: :destroy
+  has_many :appointments, dependent: :destroy
+
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "only allows valid emails" }
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  enum role: { user: 0, admin: 1 }
-
-  def self.authenticate(email, password)
-    user = User.find_for_authentication(email: email)
-    user&.valid_password?(password) ? user : nil
-  end
 end

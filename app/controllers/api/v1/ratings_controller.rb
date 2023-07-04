@@ -2,14 +2,13 @@ class Api::V1::RatingsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
 
   def index
-    @ratings = Rating.where(mentor_id: params[:mentor_id])
+    @ratings = collection
 
     render json: @ratings
   end
 
   def create
-    @mentor = Mentor.find(params[:mentor_id])
-    @rating = @mentor.ratings.build(rating_params)
+    @rating = collection.build(rating_params)
     @rating.user = current_user
 
     if @rating.save
@@ -20,6 +19,15 @@ class Api::V1::RatingsController < ApplicationController
   end
 
   private
+
+  def set_mentor
+    @mentor = Mentor.find(params[:mentor_id])
+  end
+
+  def collection
+    @mentor = set_mentor
+    @mentor.ratings
+  end
 
   def rating_params
     params.require(:rating).permit(:rating, :review)

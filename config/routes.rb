@@ -1,26 +1,15 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
-  devise_for :mentors, path: '',
-                       path_names: {
-                             sign_in: 'login/mentors',
-                             sign_out: 'logout/mentors',
-                             registration: 'signup/mentors'
-                       },
-                       controllers: {
-                             sessions: 'mentors/sessions',
-                             registrations: 'mentors/registrations'
-                      }
 
-  devise_for :users, path: '',
-                     path_names: {
-                       sign_in: 'login',
-                       sign_out: 'logout',
-                       registration: 'signup'
-                     },
-                     controllers: {
-                       sessions: 'users/sessions',
-                       registrations: 'users/registrations'
-                     }
-  get '/member-data', to: 'members#show'
+  devise_for :users, path: 'users', controllers: {
+                         sessions: 'users/sessions',
+                         registrations: 'users/registrations'
+                       }
+
+  devise_for :mentors, path: 'mentors', controllers: {
+                           sessions: 'mentors/sessions',
+                           registrations: 'mentors/registrations'
+                         }
 
   namespace :api do
     namespace :v1 do
@@ -30,14 +19,18 @@ Rails.application.routes.draw do
 
       resources :mentors do
         resources :ratings, only: %i[index create]
+        resources :availabilities
       end
 
-      resources :users, :mentors do
-        resources :appointements
+      resources :appointments
+
+      resources :conversations do
         resources :personal_messages
       end
 
-      post "create-checkouts-session", to: 'appointements#create_checkout_session', as: :create_checkout_session
+      get '/member-data', to: 'members#show'
+
+      post "create-checkouts-session", to: 'appointments#create_checkout_session', as: :create_checkout_session
     end
   end
 

@@ -1,4 +1,7 @@
 class Mentors::RegistrationsController < Devise::RegistrationsController
+  include Accessible
+  skip_before_action :check_user
+
   respond_to :json
 
   private
@@ -18,5 +21,12 @@ class Mentors::RegistrationsController < Devise::RegistrationsController
 
   def register_failed
     render json: { message: 'Something went wrong.' }, status: :unprocessable_entity
+  end
+
+  private
+
+  def sign_up_params
+    params.require(:mentor).permit(:first_name, :last_name, :email, :password, :password_confirmation,
+                                   :occupation, :subject_id)
   end
 end

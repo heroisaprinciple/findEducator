@@ -1,19 +1,29 @@
 class Api::V1::MentorsController < ApplicationController
-  before_action :set_mentor
-
   def index
-    @mentors = Mentor.all
+    @mentors = collection
 
     render json: @mentors
   end
 
   def show
+    @mentor = resource
+
     render json: @mentor
+  end
+
+  def destroy
+    @mentor = resource
+
+    @mentor.destroy
   end
 
   private
 
-  def set_mentor
-    @mentor = Mentor.find(params[:id])
+  def collection
+    Mentor.all
+  end
+
+  def resource
+    collection.find(params[:id])
   end
 end

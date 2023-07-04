@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_01_162539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appointements", force: :cascade do |t|
+  create_table "appointments", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
     t.string "meeting_link"
@@ -22,12 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
     t.string "description"
     t.bigint "mentor_id", null: false
     t.bigint "user_id", null: false
-    t.bigint "payment_id", null: false
+    t.bigint "payment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["mentor_id"], name: "index_appointements_on_mentor_id"
-    t.index ["payment_id"], name: "index_appointements_on_payment_id"
-    t.index ["user_id"], name: "index_appointements_on_user_id"
+    t.bigint "conversation_id", null: false
+    t.index ["conversation_id"], name: "index_appointments_on_conversation_id"
+    t.index ["mentor_id"], name: "index_appointments_on_mentor_id"
+    t.index ["payment_id"], name: "index_appointments_on_payment_id"
+    t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
   create_table "availabilities", force: :cascade do |t|
@@ -37,6 +39,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
     t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "month"
+    t.integer "year"
+    t.integer "status"
     t.index ["mentor_id"], name: "index_availabilities_on_mentor_id"
   end
 
@@ -44,6 +49,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "mentor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mentor_id"], name: "index_conversations_on_mentor_id"
+    t.index ["user_id"], name: "index_conversations_on_user_id"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -128,19 +142,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
     t.bigint "mentor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "appointement_id", null: false
-    t.index ["appointement_id"], name: "index_payments_on_appointement_id"
     t.index ["mentor_id"], name: "index_payments_on_mentor_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "personal_messages", force: :cascade do |t|
-    t.string "content"
+    t.text "content"
     t.datetime "sent_at"
     t.bigint "user_id", null: false
     t.bigint "mentor_id", null: false
+    t.bigint "conversation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_personal_messages_on_conversation_id"
     t.index ["mentor_id"], name: "index_personal_messages_on_mentor_id"
     t.index ["user_id"], name: "index_personal_messages_on_user_id"
   end
@@ -156,7 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
   end
 
   create_table "ratings", force: :cascade do |t|
-    t.integer "rating"
+    t.float "rating"
     t.string "review"
     t.bigint "user_id", null: false
     t.bigint "mentor_id", null: false
@@ -189,19 +203,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_182359) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "appointements", "mentors"
-  add_foreign_key "appointements", "payments"
-  add_foreign_key "appointements", "users"
+  add_foreign_key "appointments", "conversations"
+  add_foreign_key "appointments", "mentors"
+  add_foreign_key "appointments", "payments"
+  add_foreign_key "appointments", "users"
   add_foreign_key "availabilities", "mentors"
+  add_foreign_key "conversations", "mentors"
+  add_foreign_key "conversations", "users"
   add_foreign_key "mentors", "subjects"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "payments", "appointements"
   add_foreign_key "payments", "mentors"
   add_foreign_key "payments", "users"
+  add_foreign_key "personal_messages", "conversations"
   add_foreign_key "personal_messages", "mentors"
   add_foreign_key "personal_messages", "users"
-  add_foreign_key "prices", "mentors"
   add_foreign_key "prices", "subjects"
   add_foreign_key "ratings", "mentors"
   add_foreign_key "ratings", "users"

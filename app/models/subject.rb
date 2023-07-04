@@ -1,8 +1,8 @@
 class Subject < ApplicationRecord
   belongs_to :category
 
-  has_many :prices
-  has_many :mentors, through: :prices
+  has_one :price, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates_uniqueness_of :name
 end

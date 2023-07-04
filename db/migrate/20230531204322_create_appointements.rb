@@ -8,7 +8,7 @@ class CreateAppointements < ActiveRecord::Migration[7.0]
       t.string :description
       t.references :mentor, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
-      t.references :payment, null: false, foreign_key: true
+      t.references :payment, null: true, foreign_key: true
 
       t.timestamps
     end

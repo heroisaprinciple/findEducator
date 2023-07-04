@@ -1,11 +1,10 @@
-class Appointement < ApplicationRecord
+class Appointment < ApplicationRecord
+  enum status: { pending: 0, booked: 1, cancelled: 2 }
+
   belongs_to :mentor
   belongs_to :user
 
-  has_many :payments
-  # has_many :users, through: :payments
-
-  enum status: { pending: 0, booked: 1, cancelled: 2 }
+  has_one :payment
 
   validates :status, presence: true
   validates :meeting_link, presence: true

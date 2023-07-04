@@ -70,3 +70,11 @@ gem "rails-erd", "~> 1.7"
 gem 'rubocop'
 
 gem 'securerandom'
+
+gem 'devise-security'
+
+gem 'email_validator'
+
+gem 'email_address'
+
+gem 'rails-i18n'

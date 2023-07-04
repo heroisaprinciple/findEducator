@@ -1,4 +1,7 @@
 class Mentors::SessionsController < Devise::SessionsController
+  include Accessible
+  skip_before_action :check_user
+
   respond_to :json
 
   private
