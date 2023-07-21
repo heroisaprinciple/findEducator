@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include Pundit::Authorization
   def admin_access
     # current_user.admin? comes from enums
     return if current_user.admin?

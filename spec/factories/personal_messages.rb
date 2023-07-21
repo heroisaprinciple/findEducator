@@ -1,9 +1,22 @@
+# == Schema Information
+#
+# Table name: personal_messages
+#
+#  id              :bigint           not null, primary key
+#  content         :text
+#  sent_at         :datetime
+#  user_id         :bigint           not null
+#  mentor_id       :bigint           not null
+#  conversation_id :bigint           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 FactoryBot.define do
   factory :personal_message do
-    content { "MyText" }
-    sent_at { "2023-06-29 14:23:34" }
-    user { nil }
-    mentor { nil }
-    conversation { nil }
+    user { association :user }
+    mentor { association :mentor }
+    conversation { association :conversation }
+    content { Faker::Lorem.sentence }
+    sent_at { DateTime.current }
   end
 end

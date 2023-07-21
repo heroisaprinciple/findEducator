@@ -45,15 +45,29 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
   gem "factory_bot", "~> 6.2"
   gem 'factory_bot_rails'
+  gem 'pry', '~> 0.13.1'
+  gem 'rubocop'
+  gem 'faker'
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'annotate'
+  gem 'brakeman'
 end
 
-gem 'pry', '~> 0.13.1'
+group :test do
+  # Use system testing [https://guides.rub
+  # yonrails.org/testing.html#system-testing]
+  gem "capybara"
+  gem 'shoulda-matchers', '~> 5.0'
+  gem "selenium-webdriver"
+  gem "webdrivers"
+end
+
+gem 'rails-controller-testing'
+gem 'simplecov', require: false, group: :test
 
 gem 'jwt'
 gem 'devise-jwt', '~> 0.11.0'
@@ -67,8 +81,6 @@ gem 'matrix', '~> 0.4.2'
 
 gem "rails-erd", "~> 1.7"
 
-gem 'rubocop'
-
 gem 'securerandom'
 
 gem 'devise-security'
@@ -78,3 +90,9 @@ gem 'email_validator'
 gem 'email_address'
 
 gem 'rails-i18n'
+
+gem 'i18n-tasks'
+
+gem "rubycritic"
+
+gem "pundit", "~> 2.3"

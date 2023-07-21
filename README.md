@@ -27,9 +27,9 @@ Good. Let's go.
 <h2>Rails Part Documentation:</h2>
 
 <h3>The gems used:</h3>
-Authentication: devise, devise-security (for better passwords), devise-jwt, email-validator.
+Authentication: `devise, devise-security (for better passwords), devise-jwt, email-validator`.
 
-Payment: stripe, pay.
+Payment: `stripe, pay`.
 
 <h1> Goals for this project: </h1>
 <h3> Mentor has only one subject for now. And there is one price for the subject. </h3>
