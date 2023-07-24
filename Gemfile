@@ -6,8 +6,6 @@ ruby "3.1.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
-gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
-
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
@@ -96,3 +94,6 @@ gem 'i18n-tasks'
 gem "rubycritic"
 
 gem "pundit", "~> 2.3"
+
+gem 'dotenv-rails', groups: [:development, :test]
+

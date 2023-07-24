@@ -410,7 +410,7 @@ DEPENDENCIES
   devise
   devise-jwt (~> 0.11.0)
   devise-security
-  dotenv-rails (~> 2.1, >= 2.1.1)
+  dotenv-rails
   email_address
   email_validator
   factory_bot (~> 6.2)

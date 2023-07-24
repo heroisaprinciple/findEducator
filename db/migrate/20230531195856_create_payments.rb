@@ -6,7 +6,6 @@ class CreatePayments < ActiveRecord::Migration[7.0]
       t.float :sum
       t.references :user, null: false, foreign_key: true
       t.references :mentor, null: false, foreign_key: true
-      t.references :appointment, null: false, foreign_key: true
 
       t.timestamps
     end

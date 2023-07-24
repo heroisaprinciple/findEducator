@@ -1,19 +1,27 @@
-# syntax=docker/dockerfile:1
-FROM ruby
+# Use an official Ruby runtime as a parent image
+FROM ruby:3.1.2
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+# Set the working directory
+WORKDIR /app
 
-WORKDIR /findEducator
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    nodejs \
+    postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY Gemfile /findEducator/Gemfile
-COPY Gemfile.lock /findEducator/Gemfile.lock
-RUN bundle install
+# Install gems
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler && \
+    bundle install
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# Copy the application code
+COPY . .
+
+# Expose ports
 EXPOSE 3000
 
-# Configure the main process to run when running the image
+# Set the entrypoint command
 CMD ["rails", "server", "-b", "0.0.0.0"]
