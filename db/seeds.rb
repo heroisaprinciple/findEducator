@@ -8,16 +8,16 @@
 
 
 User.create!(email: 'admin@gmail.com') do |user|
-  user.password = 'password'
-  user.password_confirmation = 'password'
+  user.password = 'LmK12$14rEt,'
+  user.password_confirmation = 'LmK12$14rEt,'
   user.role = User.roles[:admin]
   user.first_name = 'Admin'
   user.last_name = 'Admin'
 end
 
 User.create!(email: 'all@gmail.com') do |user|
-  user.password = 'password'
-  user.password_confirmation = 'password'
+  user.password = 'NmK12$14rEt,'
+  user.password_confirmation = 'NmK12$14rEt,'
   user.role = User.roles[:user]
   user.first_name = 'All'
   user.last_name = 'Jackson'
@@ -34,8 +34,8 @@ Subject.create!(name: 'Cell Biology', category_id: 4)
 Subject.create(name: 'Thermodynamics', category_id: 2)
 
 Mentor.create!(email: 'baker@gmail.com') do |mentor|
-  mentor.password = 'password'
-  mentor.password_confirmation = 'password'
+  mentor.password = 'RmK12$14rEt,'
+  mentor.password_confirmation = 'RmK12$14rEt,'
   mentor.first_name = 'Sunny'
   mentor.last_name = 'Baker'
   mentor.occupation = 'Cell Biologist'
@@ -43,8 +43,8 @@ Mentor.create!(email: 'baker@gmail.com') do |mentor|
 end
 
 Mentor.create!(email: 'randy@gmail.com') do |mentor|
-  mentor.password = 'password'
-  mentor.password_confirmation = 'password'
+  mentor.password = 'XmK12$14rEt,'
+  mentor.password_confirmation = 'XmK12$14rEt,'
   mentor.first_name = 'Maria'
   mentor.last_name = 'Randy'
   mentor.occupation = 'Thermodynamics Scientist'
