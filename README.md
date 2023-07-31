@@ -1,5 +1,4 @@
 <h1>A findEducator platform to find a tutor for a particular subject.</h1>
-Stack: Rails + Postgres, React.js
 
 <h1>How to run application:</h1>
 
@@ -15,16 +14,10 @@ Stack: Rails + Postgres, React.js
 
 6. Run `rails s` in one terminal.
 
-7. Go to educator directory (which is a React app) and run `npm install` there (in second terminal).
-
-8. Run `npm start` to start the React app.
-
-9. Enter 'Yes' when it is asked to change the server as rails api runs on port 3000, but React app runs on port 3001.
-
 Good. Let's go.
 
 
-<h2>Rails Part Documentation:</h2>
+<h2>Rails Documentation:</h2>
 
 <h3>The gems used:</h3>
 Authentication: `devise, devise-security (for better passwords), devise-jwt, email-validator`.
