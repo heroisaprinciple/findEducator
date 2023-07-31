@@ -1,19 +1,21 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: "localhost" # move to env
-  username: "postgres" #  move to env
-  password: <%= ENV["DBI_PASSWORD"] %>
+  host: <%= ENV['POSTGRES_HOST'] %> # db
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
   port: "5432"
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: findeducator_development # move to env
+  database: <%= ENV['POSTGRES_DEV_DB'] %>
 
 test:
   <<: *default
-  database: findeducator_test
+  database: <%= ENV['POSTGRES_TEST_DB'] %>
 
 production:
   <<: *default
+  database: <%= ENV['POSTGRES_PROD_DB'] %>
+  secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
